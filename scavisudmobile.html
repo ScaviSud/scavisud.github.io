@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GroundForce Excavation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      perspective: 1200px;
+    }
+
+    :root {
+      --bg-dark: #0a0d12;
+      --bg-panel: #11151b;
+      --accent-orange: #e45d1b;
+      --accent-yellow: #f5e642;
+      --text-main: #ffffff;
+      --text-muted: #b5b8be;
+    }
+
+    /* GLOBAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal .stagger {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out;
+    }
+
+    .reveal.active .stagger {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* GRID HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      min-height: 100vh;
+      transform-style: preserve-3d;
+    }
+
+    .hero-text {
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--bg-dark), #151a21);
+      animation: slideIn 1.4s ease forwards;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-80px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .hero-text h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 4.2rem;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: 2px;
+    }
+
+    .hero-text span { color: var(--accent-orange); }
+    .hero spac {color: var(--text-main); }
+
+    .hero-text p {
+      max-width: 520px;
+      font-size: 1.1rem;
+      color: #b5b8be;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--accent-yellow);
+      color: #111;
+      padding: 1rem 2.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-decoration: none;
+      width: fit-content;
+      transform: translateZ(30px);
+    }
+
+    .hero-image {
+      background: url('Cooler.png') center/cover no-repeat;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .hero-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(15,18,22,.9), rgba(15,18,22,.2));
+    }
+
+    /* FLOATING NAV */
+    nav {
+      position: fixed;
+      top: 5rem;
+      left: 50%;
+      transform: translateX(-50%) translateZ(50px);
+      background: #11151b;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      display: flex;
+      gap: 2rem;
+      z-index: 10;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .95rem;
+      letter-spacing: 1px;
+    }
+
+    nav a:hover { color: var(--accent-yellow); }
+
+    section {
+      padding: 7rem 5rem;
+      transform-style: preserve-3d;
+    }
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 3px;
+      color: var(--accent-yellow);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      margin-bottom: 3rem;
+    }
+
+    /* SERVICES – 3D CARDS */
+    .services {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      padding-bottom: 2rem;
+    }
+
+    .service {
+      min-width: 320px;
+      background: var(--bg-panel);
+      border-left: 6px solid var(--accent-orange);
+      transform-style: preserve-3d;
+      transition: transform .4s ease;
+    }
+
+    .service:hover {
+      transform: rotateY(-8deg) rotateX(6deg) translateZ(30px);
+    }
+
+    .service img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .service-content {
+      padding: 1.8rem;
+      transform: translateZ(20px);
+    }
+
+    .service h3 {
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 1px;
+      margin-bottom: .5rem;
+    }
+
+    .service p { font-size: .95rem; color: var(--text-muted); }
+
+    /* PROCESS TIMELINE */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 3rem;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 2rem;
+      border-left: 2px solid #2a2f38;
+      transform: translateZ(20px);
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 0;
+      width: 14px;
+      height: 14px;
+      background: var(--accent-yellow);
+    }
+
+    /* FOOTER CTA */
+    .footer-cta {
+      background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+      color: #111;
+      text-align: center;
+      padding: 6rem 3rem;
+      transform: translateZ(40px);
+    }
+
+    .footer-cta h2 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: .85rem;
+      color: #8d9096;
+    }
+
+    .stats-container {
+      background: #1b1f27;
+      padding: 4rem 2rem;
+      border-radius: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.5rem;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      transform-style: preserve-3d;
+    }
+
+    .stat-card {
+      background: #11151b;
+      padding: 3rem;
+      border-radius: 30px;
+      text-align: center;
+      color: #fff;
+      transform: translateZ(20px);
+    }
+
+    .stat-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 3.2rem;
+      color: var(--accent-yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card p { font-size: 1rem; color: #b5b8be; }
+
+    .site-logo {
+      position: fixed;
+      top: 2rem;
+      left: 2.5rem;
+      z-index: 20;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 4px;
+      color: #ffffff;
+      text-transform: uppercase;
+      pointer-events: none;
+      transform: translateZ(60px);
+    }
+
+    .site-logo {
+      opacity: 1 !important;
+      transform: translateZ(0) !important;
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* === MOBILE SPECIFIC OVERRIDES === */
+   /* MOBILE ONLY CHANGES */
+@media (max-width: 900px) {
+
+
+  .hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-image {
+    background: url('Cool.png') center / cover no-repeat !important;
+    min-height: 260px !important;
+    width: 100%;
+  }
+
+  .hero-image::after {
+     display: block !important;
+    background: linear-gradient(
+      180deg,
+      rgba(10,13,18,0.55),
+      rgba(10,13,18,0.15)
+    ) !important;
+  }
+
+  .hero-text {
+    padding: 3rem 1.5rem !important;
+    text-align: center !important;
+  }
+ #contact > div {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  #contact {
+    padding: 4rem 1.5rem !important;
+  }
+
+  #contact iframe {
+    min-height: 300px !important;
+  }
+
+
+  /* NAV horizontal below CTA */
+  nav {
+    position: static !important;
+    transform: none !important;
+    margin: 2rem auto 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 2rem !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  nav a {
+    font-size: 1rem !important;
+    padding: 0.5rem 1rem !important;
+    color: var(--accent-yellow) !important;
+  }
+iframe {
+    border-radius: 16px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="site-logo">SCAVISUD</div>
+  <nav>
+    <a href="#services">SERVIZI</a>
+    <a href="#process">PROCESSO</a>
+    <a href="#contact">CONTATTI</a>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-text reveal">
+      <h1>Esperienza <span>qualificata</span> nei lavori di scavo</h1>
+      <p>Operiamo nel settore degli scavi e del movimento terra con mezzi moderni e personale specializzato, Siamo qualificati nelle <spac>categorie SOA OG3 ed OG6</spac></p>
+      <a href="#contact" class="cta">RICHIEDI UN PREVENTIVO →</a>
+    </div>
+    <div class="hero-image reveal"></div>
+  </div>
+
+  <section id="services" class="reveal">
+    <div class="section-label">SERVIZI</div>
+    <h2 class="section-title">Scavi civili e lavori di cantiere</h2>
+
+    <div class="services">
+      <div class="service">
+        <img src="scavone.jpg">
+        <div class="service-content">
+          <h3>Scavi e movimento terra</h3>
+          <p>Servizi di scavo e movimento terra per la preparazione e la modellazione del terreno in ambito edile e infrastrutturale.</p>
+        </div>
+      </div>
+      <div class="service">
+        <img src="infrastrutture.jpg">
+        <div class="service-content">
+          <h3>Infrastrutture e sottoservizi</h3>
+          <p>Esecuzione di scavi per la realizzazione e la posa di reti e sottoservizi, civili e industriali.</p>
+        </div>
+      </div>
+      <div class="service">
+        <img src="demolizione via vecchia.jpg">
+        <div class="service-content">
+          <h3>Demolizioni e sistemazioni esterne</h3>
+          <p>Interventi di demolizione e lavori di sistemazione delle aree esterne, con rimozione delle strutture e dei materiali esistenti.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="reveal">
+    <div class="section-label">METODO OPERATIVO</div>
+    <h2 class="section-title">Un processo chiaro e strutturato</h2>
+
+    <div class="timeline">
+      <div class="step">
+        <h4>01. Analisi del sito</h4>
+        <p>Valutazione dell’area, accessi, condizioni del terreno e definizione delle fasi operative.</p>
+      </div>
+      <div class="step">
+        <h4>02. Esecuzione dei lavori</h4>
+        <p>Coordinamento dei mezzi, rispetto dei tempi e attenzione costante alla sicurezza in cantiere.</p>
+      </div>
+      <div class="step">
+        <h4>03. Controllo finale</h4>
+        <p>Verifica delle quote, compattazione e consegna del lavoro conforme alle specifiche richieste.</p>
+      </div>
+      <div class="step">
+        <h4>04. Assistenza post-lavoro</h4>
+        <p>Supporto al cliente dopo la consegna, chiarimenti tecnici e disponibilità per eventuali interventi o integrazioni future.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal" style="padding-top:0;">
+    <div class="section-label">DATI OPERATIVI</div>
+    <h2 class="section-title">Risultati concreti sul campo</h2>
+    <div class="stats-container reveal">
+      <div class="stat-card">
+        <h3>1,250+</h3>
+        <p>Progetti completati</p>
+      </div>
+      <div class="stat-card">
+        <h3>29</h3>
+        <p>Anni di attività</p>
+      </div>
+      <div class="stat-card">
+        <h3>100%</h3>
+        <p></p>
+      </div>
+      <div class="stat-card">
+        <h3>500K+</h3>
+        <p>Metri cubi movimentati</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="footer-cta reveal">
+    <h2>Iniziamo il lavoro</h2>
+    <p>Contattaci per sopralluoghi, preventivi o informazioni tecniche.</p>
+
+    <div style="max-width:1100px;margin:4rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:3rem;text-align:left;">
+      <!-- CONTACT DETAILS + FORM -->
+      <div style="background:#11151b;padding:3rem;border-radius:20px;color:var(--text-main);">
+        <h3 style="font-family:Oswald, sans-serif;letter-spacing:2px;margin-bottom:1.5rem;">Contatti</h3>
+        <p><strong>Indirizzo:</strong> Via Mercantini, 1, Altamura(BA)</p>
+        <p><strong>Telefono:</strong>3351227833, 3489844007</p>
+        <p><strong>Email:</strong>info@scavisud.com</p>
+
+        <hr style="margin:2rem 0;border:1px solid #222;">
+
+        <form  id="contact-form" action="https://formspree.io/f/xnjvawqz" method="POST">
+          <input name="nome" type="hidden" name="_format" value="html">
+          <input type="text" placeholder="Nome" style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:8px;border:none;">
+          <input type="email" placeholder="Indirizzo Email" style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:8px;border:none;">
+          
+          <textarea rows="4" name="messaggio" placeholder="Testo" style="width:100%;padding:1rem;margin-bottom:1.5rem;border-radius:8px;border:none;"></textarea>
+          <button class="cta" type="submit">INVIA →</button>
+        </form>
+<p id="form-status" style="display:none; margin-top:15px; color:orange;">
+  Messaggio inviato correttamente
+</p>
+      </div>
+
+      <!-- GOOGLE MAP -->
+      <div style="background:#11151b;border-radius:20px;overflow:hidden;transform:translateZ(30px);">
+        <iframe
+          src="https://www.google.com/maps?q=Via+Mercantini,+1,+70022+Altamura+BA&output=embed"
+          width="100%"
+          height="100%"
+          style="border:0;min-height:420px;"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 ScaviSud
+  </footer>
+
+  <script>
+    /* SCROLL REVEAL */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.2 });
+
+    reveals.forEach(r => observer.observe(r));
+  </script>
+<script>
+const form = document.getElementById('contact-form');
+const status = document.getElementById('form-status');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const data = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      form.reset();
+      status.style.display = 'block';
+      status.textContent = 'Messaggio inviato con successo.';
+    } else {
+      status.style.display = 'block';
+      status.style.color = 'red';
+      status.textContent = 'Errore nell’invio. Riprova.';
+    }
+  } catch (error) {
+    status.style.display = 'block';
+    status.style.color = 'red';
+    status.textContent = 'Errore di rete.';
+  }
+});
+</script>
+
+
+
+</body>
+</html>
