@@ -1,659 +1,926 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
-  <meta name="description" content="Questo è un esempio di meta description. In genere puoi vedere questo testo nella pagina dei risultati di ricerca, ma Google può anche prendere altro contenuto.">
-  <meta name="google-site-verification" content="KVcEJYnxI7Q7_9KzsUBUfl8D7Z_aYdnU_dcqDtSvLQc" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GroundForce Excavation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>FORTE EDILIZIA — Clean Green & White</title>
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-main);
-      overflow-x: hidden;
-      perspective: 1200px;
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  max-width: 100vw;
+}
+
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
+:root {
+  --bg-main: #ffffff;
+  --bg-soft: #f5fdf7;
+  --accent: #4caf50;
+  --cursor-yellow: green;
+  --text-main: #0f2e1c;
+  --text-muted: #607d68;
+  --border-soft: rgba(76,175,80,0.2);
+  --nav-height: 88px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  padding-top: var(--nav-height);
+  background: var(--bg-main);
+  color: var(--text-main);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Links */
+a { text-decoration: none; color: inherit; }
+
+/* NAVIGATION */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  min-height: 88px;
+  padding: 24px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+nav .logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+nav ul {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+nav li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  position: relative;
+}
+
+nav li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+nav li:hover {
+  color: var(--text-main);
+}
+
+nav li:hover::after {
+  width: 100%;
+}
+
+/* HERO */
+.hero {
+  min-height: calc(var(--vh, 1vh) * 90);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  padding: 120px 80px 80px;
+  padding-top: calc(var(--nav-height) + 40px);
+  gap: 60px;
+  align-items: center;
+  background: var(--bg-soft);
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+.hero h1.visible { opacity: 1; transform: translateY(0); }
+
+.hero h1 span { color: var(--accent); }
+
+.hero p {
+  margin-top: 20px;
+  max-width: 500px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.2s;
+}
+
+.hero p.visible { opacity: 1; transform: translateY(0); }
+
+.hero-cta {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.4s;
+}
+
+.hero-cta.visible { opacity: 1; transform: translateY(0); }
+
+.btn-primary {
+  padding: 14px 32px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 10px rgba(76,175,80,0.3);
+}
+
+.btn-secondary {
+  padding: 14px 32px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+/* HERO IMAGE */
+.hero-image {
+  position: relative;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.6s;
+}
+.hero-image.visible { opacity: 1; transform: translateY(0); }
+.hero-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+
+/* SECTION BASE */
+section {
+  padding: 120px 80px;
+  background: var(--bg-main);
+}
+
+.section-label {
+  color: var(--accent);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.section-label.visible { opacity: 1; transform: translateY(0); }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  margin-bottom: 30px;
+  color: var(--text-main);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out 0.1s;
+}
+
+.section-title.visible { opacity: 1; transform: translateY(0); }
+
+/* SERVICES */
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.service {
+  background: var(--bg-soft);
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.service.visible { opacity: 1; transform: translateY(0); }
+.service:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(76,175,80,0.15);
+}
+.service h3 { margin-bottom: 15px; font-size: 1.3rem; }
+.service p { color: var(--text-muted); line-height: 1.6; }
+
+/* SPLIT IMAGE */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.split img {
+  width: 100%;
+  border-radius: 16px;
+  filter: brightness(1.05);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+.split img.visible { opacity: 1; transform: translateY(0); }
+
+/* PROJECTS */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 300px;
+  gap: 30px;
+}
+.project {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  grid-column: span 4;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+.project.visible { opacity: 1; transform: translateY(0); }
+.project.large { grid-column: span 8; grid-row: span 2; }
+.project img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.project:hover img { transform: scale(1.05); }
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project:hover .project-overlay { opacity: 1; }
+
+/* CONTACT */
+.contact-box {
+  background: var(--bg-soft);
+  padding: 80px;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.contact-box h3 {
+  font-size: 2rem;
+  font-family: 'Playfair Display', serif;
+  color: var(--text-main);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+.contact-box h3.visible { opacity: 1; transform: translateY(0); }
+
+.contact-box p { margin-top: 10px; color: var(--text-muted); }
+.contact-box form { display: grid; gap: 15px; }
+.contact-box input,
+.contact-box textarea {
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  padding: 14px;
+  border-radius: 6px;
+  color: var(--text-main);
+}
+
+/* MAP */
+#map {
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+/* FOOTER */
+footer {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-soft);
+}
+
+/* MEDIA */
+@media(max-width:1000px){
+  :root {
+    --nav-height: 64px;
     }
-
-    :root {
-      --bg-dark: #0a0d12;
-      --bg-panel: #11151b;
-      --accent-orange: #e45d1b;
-      --accent-yellow: #f5e642;
-      --text-main: #ffffff;
-      --text-muted: #b5b8be;
+  nav, section { padding: 60px 30px; }
+  nav {
+    min-height: 64px;
+    padding: 16px 20px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
     }
-
-    /* GLOBAL ANIMATIONS */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1s cubic-bezier(.2,.8,.2,1);
+    nav ul {
+    justify-content: center;
     }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal .stagger {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease-out;
-    }
-
-    .reveal.active .stagger {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* GRID HERO */
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      min-height: 100vh;
-      transform-style: preserve-3d;
-    }
-
-    .hero-text {
-      padding: 5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: linear-gradient(180deg, var(--bg-dark), #151a21);
-      animation: slideIn 1.4s ease forwards;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(-80px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    .hero-text h1 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 4.2rem;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      letter-spacing: 2px;
-    }
-
-    .hero-text span { color: var(--accent-orange); }
-    .hero spac {color: var(--text-main); }
-
-    .hero-text p {
-      max-width: 520px;
-      font-size: 1.1rem;
-      color: #b5b8be;
-      margin-bottom: 2.5rem;
-    }
-
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--accent-yellow);
-      color: #111;
-      padding: 1rem 2.2rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-decoration: none;
-      width: fit-content;
-      transform: translateZ(30px);
-    }
-
-    .hero-image {
-      background: url('Cooler.png') center/cover no-repeat !important;
-      position: relative;
-      transform-style: preserve-3d;
-    }
-
-    .hero-image::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(15,18,22,.9), rgba(15,18,22,.2));
-    }
-
-    /* FLOATING NAV */
-    nav {
-      position: fixed;
-      top: 5rem;
-      left: 50%;
-      transform: translateX(-50%) translateZ(50px);
-      background: #11151b;
-      padding: 1rem 2.5rem;
-      border-radius: 50px;
-      display: flex;
-      gap: 2rem;
-      z-index: 10;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: .95rem;
-      letter-spacing: 1px;
-    }
-
-    nav a:hover { color: var(--accent-yellow); }
-
-    section {
-      padding: 7rem 5rem;
-      transform-style: preserve-3d;
-    }
-
-    .section-label {
-      font-family: 'Oswald', sans-serif;
-      letter-spacing: 3px;
-      color: var(--accent-yellow);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-size: 2.8rem;
-      margin-bottom: 3rem;
-    }
-
-    /* SERVICES – 3D CARDS */
-    .services {
-      display: flex;
-      gap: 2rem;
-      overflow-x: auto;
-      padding-bottom: 2rem;
-    }
-
-    .service {
-      min-width: 320px;
-      background: var(--bg-panel);
-      border-left: 6px solid var(--accent-orange);
-      transform-style: preserve-3d;
-      transition: transform .4s ease;
-    }
-
-    .service:hover {
-      transform: rotateY(-8deg) rotateX(6deg) translateZ(30px);
-    }
-
-    .service img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-
-    .service-content {
-      padding: 1.8rem;
-      transform: translateZ(20px);
-    }
-
-    .service h3 {
-      font-family: 'Oswald', sans-serif;
-      letter-spacing: 1px;
-      margin-bottom: .5rem;
-    }
-
-    .service p { font-size: .95rem; color: var(--text-muted); }
-
-    /* PROCESS TIMELINE */
-    .timeline {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 3rem;
-    }
-
-    .step {
-      position: relative;
-      padding-left: 2rem;
-      border-left: 2px solid #2a2f38;
-      transform: translateZ(20px);
-    }
-
-    .step::before {
-      content: "";
-      position: absolute;
-      left: -8px;
-      top: 0;
-      width: 14px;
-      height: 14px;
-      background: var(--accent-yellow);
-    }
-
-    /* FOOTER CTA */
-    .footer-cta {
-      background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-      color: #111;
-      text-align: center;
-      padding: 6rem 3rem;
-      transform: translateZ(40px);
-    }
-
-    .footer-cta h2 {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: .85rem;
-      color: #8d9096;
-    }
-
-    .stats-container {
-      background: #1b1f27;
-      padding: 4rem 2rem;
-      border-radius: 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2.5rem;
-      position: relative;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-      transform-style: preserve-3d;
-    }
-
-    .stat-card {
-      background: #11151b;
-      padding: 3rem;
-      border-radius: 30px;
-      text-align: center;
-      color: #fff;
-      transform: translateZ(20px);
-    }
-
-    .stat-card h3 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 3.2rem;
-      color: var(--accent-yellow);
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-card p { font-size: 1rem; color: #b5b8be; }
-
-    .site-logo {
-      position: fixed;
-      top: 2rem;
-      left: 2.5rem;
-      z-index: 20;
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 4px;
-      color: #ffffff;
-      text-transform: uppercase;
-      pointer-events: none;
-      transform: translateZ(60px);
-    }
-
-    .site-logo {
-      opacity: 1 !important;
-      transform: translateZ(0) !important;
-      animation: none !important;
-      transition: none !important;
-    }
-
-    /* === MOBILE SPECIFIC OVERRIDES === */
-   /* MOBILE ONLY CHANGES */
-@media (max-width: 900px) {
-
-
   .hero {
-    grid-template-columns: 1fr !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero > div {
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .hero p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-cta {
+    justify-content: center;
   }
 
   .hero-image {
-    background: url('Cool.png') center / cover no-repeat !important;
-    min-height: 260px !important;
     width: 100%;
+    max-width: 420px;
+    margin: 40px auto 0;
   }
 
-  .hero-image::after {
-     display: block !important;
-    background: linear-gradient(
-      180deg,
-      rgba(10,13,18,0.55),
-      rgba(10,13,18,0.15)
-    ) !important;
-  }
-
-  .hero-text {
-    padding: 3rem 1.5rem !important;
-    text-align: center !important;
-  }
- #contact > div {
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
-  }
-
-  #contact {
-    padding: 4rem 1.5rem !important;
-  }
-
-  #contact iframe {
-    min-height: 300px !important;
-  }
-
-
-  /* NAV horizontal below CTA */
-  nav {
-    position: static !important;
-    transform: none !important;
-    margin: 2rem auto 0 !important;
-    display: flex !important;
-    justify-content: center !important;
-    gap: 2rem !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-  }
-
-  nav a {
-    font-size: 1rem !important;
-    padding: 0.5rem 1rem !important;
-    color: var(--accent-yellow) !important;
-  }
-iframe {
-    border-radius: 16px;
-  }
-   section {
-    padding-left: 1.5rem !important;
-    padding-right: 1.5rem !important;
-  }
-
-  /* Stats container */
-  .stats-container {
-    padding: 2rem 1.5rem !important;
-    border-radius: 24px !important;
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Singole card */
-  .stat-card {
-    padding: 2rem 1.5rem !important;
-    border-radius: 20px !important;
-  }
-
-  /* Servizi: evita overflow orizzontale */
-  .services {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .service {
-    min-width: 100% !important;
-  }
-
-  /* Footer contact grid */
-  #contact > div {
-    max-width: 100% !important;
-    margin: 0 auto !important;
-  }
+  .services { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; }
+  .contact-box { grid-template-columns: 1fr; padding: 40px; }
 }
 
-.service-modal {
+/* CUSTOM CURSOR */
+.cursor {
   position: fixed;
-  inset: 0;
-  background: #0a0d12;
-  display: none;
-  z-index: 5000;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--cursor-yellow);
+  border-radius: 50%;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 9999;
+  transform: translate3d(0, 0, 0);
+  transform-origin: center;
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    border-width 0.2s ease,
+    transform 0.1s linear;
 }
 
-.service-modal.active {
-  display: block;
+/* Stato hover su elementi cliccabili */
+.cursor.clickable {
+  width: 12px;
+  height: 12px;
+  border-width: 2px;
 }
 
-.service-modal-content {
+
+}
+.cursor.active {
+  opacity: 1;
+}
+
+.cursor.click {
+  transform: scale(0.7);
+}
+
+.map-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-static {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.map-static img {
   width: 100%;
   height: 100%;
-  padding: 6rem 5rem;
-  overflow-y: auto;
-  background: linear-gradient(
-    180deg,
-    #0a0d12,
-    #11151b
-  );
-  color: #fff;
+  object-fit: cover;
 }
 
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text-main);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.map-static:hover .map-overlay {
+  opacity: 1;
+}
+
+/* GALLERY ORDINATA */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-soft);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+/* MOBILE */
+@media(max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media(max-width: 500px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* STATS BAND */
+.stats-band {
+  background: linear-gradient(
+    180deg,
+    #f3fbf6,
+    #ffffff
+  );
+  padding: 140px 80px;
+}
+
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stats-header {
+  margin-bottom: 80px;
+}
+
+.stats-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.stat {
+  text-align: center;
+  min-width: 140px;
+}
+
+.stat .value {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat .label {
+  margin-top: 14px;
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.divider {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(76,175,80,0.4),
+    transparent
+  );
+}
+
+/* RESPONSIVE */
+@media(max-width: 900px) {
+  .stats-line {
+    flex-direction: column;
+  }
+
+  .divider {
+    width: 80px;
+    height: 1px;
+  }
+}
+/* PROJECT MODAL */
+.project-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 40px;
+}
+
+.project-modal.active {
+  display: flex;
+}
+
+.project-modal-content {
+  max-width: 1100px;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 50px;
+  overflow-y: auto;
+  max-height: 90vh;
+}
 
 .close-modal {
-  position: fixed;
-  top: 2rem;
-  right: 2.5rem;
-  font-size: 2.5rem;
+  font-size: 2rem;
   cursor: pointer;
-  color: var(--accent-yellow);
-  z-index: 6000;
+  float: right;
+  color: var(--accent);
 }
 
 .modal-gallery {
-  margin-top: 4rem;
+  margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .modal-gallery img {
   width: 100%;
-  height: 280px;
+  border-radius: 12px;
   object-fit: cover;
-  border-radius: 18px;
 }
 
+@media(max-width: 900px) {
+  .modal-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-@media (max-width: 900px) {
+@media(max-width: 500px) {
+  .modal-gallery {
+    grid-template-columns: 1fr;
+  }
+}
 
-  body {
-    perspective: none !important;
-    }
+/* Nasconde cursore e highlight su dispositivi touch */
+@media (hover: none) and (pointer: coarse) {
   * {
-    transform: none !important;
-   }
-  .service-modal-content {
-    padding: 6rem 1.5rem 3rem !important;
-    background: #0a0d12; /* niente gradient su mobile */
-  }
-
-  .service-modal-content h1 {
-    font-size: 2.1rem;
-    line-height: 1.2;
-  }
-
-  .service-modal-content p {
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-
-  .close-modal {
-    top: 1.2rem;
-    right: 1.4rem;
-    font-size: 2.2rem;
+    cursor: none !important;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-
-body.modal-open {
-  overflow: hidden;
-  height: 100vh;
+/* Nasconde cursore custom su touch */
+.touch-device .cursor {
+  display: none !important;
 }
 
-/* === SERVICE MODAL TEXT FIX === */
-.service-modal-content h1 {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 1.2rem;
-  color: var(--accent-yellow);
-  letter-spacing: 1px;
+/* Ripristina cursore normale */
+.touch-device * {
+  cursor: auto !important;
 }
 
-.service-modal-content p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #e5e7eb;
-  max-width: 900px;
+nav,
+.hero,
+section,
+.stats-band,
+footer {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-html, body {
-  max-width: 100%;
-}
-
-  </style>
+</style>
 </head>
 <body>
-  <div class="site-logo">SCAVISUD</div>
-  <nav>
-    <a href="#services">SERVIZI</a>
-    <a href="#process">PROCESSO</a>
-    <a href="#contact">CONTATTI</a>
-  </nav>
 
-  <div class="hero">
-    <div class="hero-text reveal">
-      <h1>Esperienza <span>qualificata</span> nei lavori di scavo</h1>
-      <p>Operiamo nel settore degli scavi e del movimento terra con mezzi moderni e personale specializzato, Siamo qualificati nelle <spac>categorie SOA OG3 ed OG6</spac></p>
-      <a href="#contact" class="cta">RICHIEDI UN PREVENTIVO →</a>
+<div class="cursor" id="cursor"></div>
+
+<nav>
+  <div class="logo">FORTE EDILIZIA</div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#services">Servizi</a></li>
+    <li><a href="#projects">Progetti</a></li>
+    <li><a href="#contact">Contatti</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>Allestiamo <span>cantieri</span><br> per lavori edili</h1>
+    <p>Ci occupiamo dell’allestimento di cantieri edili, seguendo le fasi iniziali del lavoro e predisponendo le strutture necessarie alle attività in cantiere.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">RICHIEDI INFORMAZIONI</a>
+      <a href="#projects" class="btn-secondary">VEDI GLI INTERVENTI</a>
     </div>
-    <div class="hero-image reveal"></div>
   </div>
-
-  <section id="services" class="reveal">
-    <div class="section-label">SERVIZI</div>
-    <h2 class="section-title">Scavi civili e lavori di cantiere</h2>
-
-    <div class="services">
-      <div class="service service-card" data-service="0">
-  <img src="scavone.jpg">
-  <div class="service-content">
-    <h3>Scavi e movimento terra</h3>
-    <p>Servizi di scavo e movimento terra per la preparazione e la modellazione del terreno in ambito edile e infrastrutturale.</p>
+  <div class="hero-image">
+    <img src="coolu.png">
   </div>
+</section>
+
+<section id="services">
+  <div class="section-label">SERVIZI</div>
+  <div class="section-title">Allestimento cantieri</div>
+  <div class="services">
+    <div class="service"> <h3>Installazione cantiere</h3> <p>Predisposizione dell’area di lavoro con recinzioni, accessi, segnaletica e spazi operativi.</p> </div>
+    <div class="service"> <h3>Sicurezza e logistica</h3> <p>Allestimento di dispositivi di sicurezza, viabilità interna, zone di carico e scarico materiali.</p> </div>
+    <div class="service"> <h3>Strutture provvisorie</h3> <p>Montaggio di baraccamenti, ponteggi, servizi igienici e impianti temporanei di cantiere.</p> </div>
+  </div>
+</section>
+
+<section class="stats-band">
+  <div class="stats-inner">
+
+    <div class="stats-header">
+      <div class="section-label">NUMERI</div>
+      <div class="section-title">Esperienza misurabile</div>
+    </div>
+
+    <div class="stats-line">
+      <div class="stat">
+        <span class="value" data-target="120">0</span>
+        <span class="label">Cantieri allestiti</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stat">
+        <span class="value" data-target="15">0</span>
+        <span class="label">Anni di esperienza</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stat">
+        <span class="value" data-target="98">0</span>
+        <span class="label">Sicurezza</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stat">
+        <span class="value" data-target="30">0</span>
+        <span class="label">Giorni medi</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-label">GALLERY</div>
+  <div class="section-title">Alcuni cantieri</div>
+
+  <div class="gallery">
+    <div class="gallery-item project-card" data-project="0">
+      <img src="buen camin.jpeg">
+    </div>
+
+    <div class="gallery-item project-card" data-project="1">
+      <img src="zal.jpeg">
+    </div>
+
+    <div class="gallery-item project-card" data-project="2">
+      <img src="katsu.jpeg">
+    </div>
+  </div>
+</section>
+
+
+<section id="contact">
+  <div class="contact-box">
+    <div>
+      <h3>Richiedi un allestimento</h3>
+      <p>Contattaci per sopralluoghi, preventivi o informazioni sull’organizzazione del cantiere.</p>
+      <div id="map-container" style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; margin-top: 20px;">
+<div class="map-static">
+  <a 
+    href="https://www.google.com/maps?q=Via+Catullo,+10,+70022+Altamura+BA"
+    target="_blank"
+    aria-label="Apri la mappa su Google Maps"
+  >
+    <img src="map-altamura.jpg" alt="Mappa sede Forte Edilizia">
+    <span class="map-overlay">Apri su Google Maps</span>
+  </a>
 </div>
 
-<div class="service service-card" data-service="1">
-  <img src="infrastrutture.jpg">
-  <div class="service-content">
-    <h3>Infrastrutture e sottoservizi</h3>
-    <p>Esecuzione di scavi per la realizzazione e la posa di reti e sottoservizi, civili e industriali.</p>
-  </div>
 </div>
-
-<div class="service service-card" data-service="2">
-  <img src="demolizione via vecchia.jpg">
-  <div class="service-content">
-    <h3>Demolizioni e sistemazioni esterne</h3>
-    <p>Interventi di demolizione e lavori di sistemazione delle aree esterne.</p>
-  </div>
-</div>
-
     </div>
-  </section>
-
-  <section id="process" class="reveal">
-    <div class="section-label">METODO OPERATIVO</div>
-    <h2 class="section-title">Un processo chiaro e strutturato</h2>
-
-    <div class="timeline">
-      <div class="step">
-        <h4>01. Analisi del sito</h4>
-        <p>Valutazione dell’area, accessi, condizioni del terreno e definizione delle fasi operative.</p>
-      </div>
-      <div class="step">
-        <h4>02. Esecuzione dei lavori</h4>
-        <p>Coordinamento dei mezzi, rispetto dei tempi e attenzione costante alla sicurezza in cantiere.</p>
-      </div>
-      <div class="step">
-        <h4>03. Controllo finale</h4>
-        <p>Verifica delle quote, compattazione e consegna del lavoro conforme alle specifiche richieste.</p>
-      </div>
-      <div class="step">
-        <h4>04. Assistenza post-lavoro</h4>
-        <p>Supporto al cliente dopo la consegna, chiarimenti tecnici e disponibilità per eventuali interventi o integrazioni future.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="reveal" style="padding-top:0;">
-    <div class="section-label">DATI OPERATIVI</div>
-    <h2 class="section-title">Risultati concreti sul campo</h2>
-    <div class="stats-container reveal">
-      <div class="stat-card">
-        <h3>1,250+</h3>
-        <p>Progetti completati</p>
-      </div>
-      <div class="stat-card">
-        <h3>29</h3>
-        <p>Anni di attività</p>
-      </div>
-      <div class="stat-card">
-        <h3>100%</h3>
-        <p></p>
-      </div>
-      <div class="stat-card">
-        <h3>500K+</h3>
-        <p>Metri cubi movimentati</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="footer-cta reveal">
-    <h2>Iniziamo il lavoro</h2>
-    <p>Contattaci per sopralluoghi, preventivi o informazioni tecniche.</p>
-
-    <div style="max-width:1100px;margin:4rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:3rem;text-align:left;">
-      <!-- CONTACT DETAILS + FORM -->
-      <div style="background:#11151b;padding:3rem;border-radius:20px;color:var(--text-main);">
-        <h3 style="font-family:Oswald, sans-serif;letter-spacing:2px;margin-bottom:1.5rem;">Contatti</h3>
-        <p><strong>Indirizzo:</strong> Via Mercantini, 1, Altamura(BA)</p>
-        <p><strong>Telefono:</strong>3351227833, 3489844007</p>
-        <p><strong>Email:</strong>info@scavisud.com</p>
-
-        <hr style="margin:2rem 0;border:1px solid #222;">
-
-        <form  id="contact-form" action="https://formspree.io/f/xnjvawqz" method="POST">
-          <input name="nome" type="hidden" name="_format" value="html">
-          <input type="text" placeholder="Nome" style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:8px;border:none;">
-          <input type="email" placeholder="Indirizzo Email" style="width:100%;padding:1rem;margin-bottom:1rem;border-radius:8px;border:none;">
-          
-          <textarea rows="4" name="messaggio" placeholder="Testo" style="width:100%;padding:1rem;margin-bottom:1.5rem;border-radius:8px;border:none;"></textarea>
-          <button class="cta" type="submit">INVIA →</button>
-        </form>
-<p id="form-status" style="display:none; margin-top:15px; color:orange;">
+    <form id="contact-form" action="https://formspree.io/f/xnjvawqz" method="POST">
+    <input type="hidden" name="_format" value="html">
+      <p><strong>Indirizzo:</strong> Via Catullo, 10, Altamura(BA)</p>
+      <p><strong>Telefono:</strong>389 5556903, 329 6216885</p>
+      <p><strong>Email:</strong>info@forteedilizia.com</p>
+      <input name="nome" placeholder="Nome e cognome" />
+      <input name="email" name="email" placeholder="Indirizzo email" />
+      <textarea rows="4" name="messaggio" placeholder="Testo"></textarea>
+      <button class="btn-primary">INVIA RICHIESTA</button>
+    </form>
+<p id="form-status" style="display:none; margin-top:15px; color:green;">
   Messaggio inviato correttamente
 </p>
-      </div>
+  </div>
+</section>
 
-      <!-- GOOGLE MAP -->
-      <div style="background:#11151b;border-radius:20px;overflow:hidden;transform:translateZ(30px);">
-        <iframe
-          src="https://www.google.com/maps?q=Via+Mercantini,+1,+70022+Altamura+BA&output=embed"
-          width="100%"
-          height="100%"
-          style="border:0;min-height:420px;"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-    </div>
-  </section>
+<footer>
+  © 2025 FORTE EDILIZIA - Via Catullo, 10 Altamura(BA)
+</footer>
 
-  <footer>
-    © 2025 ScaviSud
-  </footer>
+<script>
+const isTouchDevice =
+  'ontouchstart' in window ||
+  navigator.maxTouchPoints > 0;
 
-  <script>
-    /* SCROLL REVEAL */
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
-      });
-    }, { threshold: 0.2 });
+if (isTouchDevice) {
+  document.documentElement.classList.add('touch-device');
+}
+// Cursor
 
-    reveals.forEach(r => observer.observe(r));
-  </script>
+if (!document.documentElement.classList.contains('touch-device')) {
+const cursor = document.getElementById('cursor');
+let cursorVisible = false;
+
+function showCursor() {
+  if (!cursorVisible) {
+    cursor.style.visibility = 'visible';
+    cursorVisible = true;
+  }
+}
+
+function hideCursor() {
+  cursor.style.visibility = 'hidden';
+  cursorVisible = false;
+}
+
+document.addEventListener('mousemove', e => {
+  showCursor();
+  cursor.style.transform = `translate(
+    ${e.clientX - cursor.offsetWidth / 2}px,
+    ${e.clientY - cursor.offsetHeight / 2}px
+  )`;
+});
+
+// Fires when mouse leaves browser window
+document.addEventListener('mouseout', e => {
+  if (!e.relatedTarget && !e.toElement) {
+    hideCursor();
+  }
+});
+
+// Fires when tab loses focus
+window.addEventListener('blur', hideCursor);
+
+
+// Animations on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.hero h1, .hero p, .hero-cta, .hero-image, .section-label, .section-title, .service, .split img, .project, .contact-box h3').forEach(el => {
+  observer.observe(el);
+});
+
+const mapContainer = document.getElementById('map-container');
+
+mapContainer.addEventListener('mouseenter', () => {
+  cursor.style.visibility = 'hidden';
+  cursorVisible = false;
+});
+
+mapContainer.addEventListener('mouseleave', () => {
+  cursor.style.visibility = 'hidden';
+  cursorVisible = false;
+});
+
+const values = document.querySelectorAll('.stat .value');
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = target / 60;
+
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          el.textContent =
+            target +
+            (target === 120 ? '+' : target === 98 ? '%' : '');
+          clearInterval(timer);
+        } else {
+          el.textContent = Math.floor(current);
+        }
+      }, 25);
+
+      statsObserver.unobserve(el);
+    }
+  });
+}, {
+  threshold: 0.2,        // 👈 molto più affidabile su mobile
+  rootMargin: "0px 0px -80px 0px" // 👈 parte prima
+});
+
+values.forEach(v => statsObserver.observe(v));
+
+const clickableElements = document.querySelectorAll(
+  'a, button, .btn-primary, .btn-secondary, .gallery-item, .project-card'
+);
+
+clickableElements.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('clickable');
+  });
+
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('clickable');
+  });
+});
+}
+</script>
 <script>
 const form = document.getElementById('contact-form');
 const status = document.getElementById('form-status');
@@ -689,108 +956,145 @@ form.addEventListener('submit', async (e) => {
 });
 </script>
 
-<div class="service-modal" id="serviceModal">
-  <div class="service-modal-content">
+<div class="project-modal" id="projectModal">
+  <div class="project-modal-content">
     <span class="close-modal">&times;</span>
-    <h1 id="serviceModalTitle"></h1>
-    <p id="serviceModalDescription"></p>
-    <div class="modal-gallery" id="serviceModalGallery"></div>
+
+    <h3 id="modalTitle"></h3>
+    <p id="modalDescription"></p>
+
+    <div class="modal-gallery" id="modalGallery"></div>
   </div>
 </div>
 
 <script>
-const servicesData = [
+const projects = [
   {
-    title: "Scavi e movimento terra",
-    description: "Interventi di scavo per edifici civili, industriali e infrastrutturali, con modellazione del terreno e gestione dei materiali.",
+    title: "Cantiere Residenziale – Altamura",
+    description: "Allestimento completo di cantiere residenziale con recinzioni, baraccamenti e ponteggi.",
     images: [
-      "scavone.jpg",
-      "scavone2.jpg",
-      "scavone3.jpg"
+      "buen camin.jpeg",
+      "buen camin2.jpeg",
+      "buen camin3.jpeg"
     ]
   },
   {
-    title: "Infrastrutture e sottoservizi",
-    description: "Realizzazione di reti interrate, sottoservizi e opere infrastrutturali con attenzione a sicurezza e precisione.",
+    title: "Ristrutturazione edificio",
+    description: "Organizzazione logistica e sicurezza per lavori di ristrutturazione.",
     images: [
-      "infrastrutture.jpg",
-      "infrastrutture2.jpg",
-      "infrastrutture3.jpg"
+      "zal.jpeg",
+      "zal2.jpeg",
+      "zal3.jpeg"
     ]
   },
   {
-    title: "Demolizioni e sistemazioni esterne",
-    description: "Demolizioni controllate e sistemazione delle aree esterne con mezzi specializzati.",
+    title: "Nuova costruzione",
+    description: "Predisposizione strutture provvisorie e impianti di cantiere.",
     images: [
-      "demolizione via vecchia.jpg",
-      "demolizione2.jpg",
-      "demolizione3.jpg"
+      "katsu.jpeg",
+      "katsu2.jpeg",
+      "katsu3.jpeg"
     ]
   }
 ];
 
-const modal = document.getElementById("serviceModal");
-const modalTitle = document.getElementById("serviceModalTitle");
-const modalDescription = document.getElementById("serviceModalDescription");
-const modalGallery = document.getElementById("serviceModalGallery");
+const modal = document.getElementById("projectModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalGallery = document.getElementById("modalGallery");
 const closeModal = document.querySelector(".close-modal");
 
-document.querySelectorAll(".service-card").forEach(card => {
+document.querySelectorAll(".project-card").forEach(card => {
   card.addEventListener("click", () => {
-    const index = card.dataset.service;
-    const service = servicesData[index];
+    const index = card.dataset.project;
+    const project = projects[index];
 
-    modalTitle.textContent = service.title;
-    modalDescription.textContent = service.description;
+    modalTitle.textContent = project.title;
+    modalDescription.textContent = project.description;
 
     modalGallery.innerHTML = "";
-    service.images.forEach(img => {
+    project.images.forEach(img => {
       const image = document.createElement("img");
       image.src = img;
       modalGallery.appendChild(image);
     });
 
-    // 👉 1. blocca scroll pagina
-    document.body.classList.add("modal-open");
-
-    // 👉 2. forza la vista in cima
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant"
-    });
-
-    // 👉 3. apri la bacheca
     modal.classList.add("active");
   });
 });
 
-function closeServiceModal() {
+closeModal.addEventListener("click", () => {
   modal.classList.remove("active");
-  document.body.classList.remove("modal-open");
-}
-
-// chiusura con X
-closeModal.addEventListener("click", closeServiceModal);
-
-// chiusura clic fuori
-modal.addEventListener("click", e => {
-  if (e.target === modal) {
-    closeServiceModal();
-  }
 });
 
-// chiusura ESC
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && modal.classList.contains("active")) {
-    closeServiceModal();
+modal.addEventListener("click", e => {
+  if (e.target === modal) {
+    modal.classList.remove("active");
   }
 });
 </script>
 
+<script>
+document.addEventListener('mousedown', () => {
+  cursor.classList.add('click');
+});
+
+document.addEventListener('mouseup', () => {
+  cursor.classList.remove('click');
+});
+</script>
+
+<script>
+function setVH() {
+  document.documentElement.style.setProperty(
+    '--vh',
+    `${window.innerHeight * 0.01}px`
+  );
+}
+
+setVH();
+window.addEventListener('resize', setVH);
+</script>
+<script>
+window.addEventListener('load', () => {
+  values.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      statsObserver.observe(el);
+    }
+  });
+});
+</script>
+
+<script>
+window.addEventListener('load', () => {
+  const revealNow = document.querySelectorAll(
+    '.hero h1, .hero p, .hero-cta, .hero-image, ' +
+    '.section-label, .section-title'
+  );
+
+  revealNow.forEach(el => {
+    el.classList.add('visible');
+  });
+});
+</script>
+
+<script>
+window.addEventListener('load', () => {
+  if (window.innerWidth <= 900) {
+    document.querySelectorAll(
+      '.hero h1, .hero p, .hero-cta, .hero-image,' +
+      '#services .section-label,' +
+      '#services .section-title,' +
+      '#services .service'
+    ).forEach(el => {
+      el.classList.add('visible');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }
+});
+</script>
 
 </body>
-
 </html>
-
-
