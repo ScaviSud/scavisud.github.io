@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
+  <meta name="description" content="Questo è un esempio di meta description. In genere puoi vedere questo testo nella pagina dei risultati di ricerca, ma Google può anche prendere altro contenuto.">
   <meta name="google-site-verification" content="KVcEJYnxI7Q7_9KzsUBUfl8D7Z_aYdnU_dcqDtSvLQc" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ScaviSud</title>
+  <title>GroundForce Excavation</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -392,6 +393,107 @@ iframe {
   }
 }
 
+.service-modal {
+  position: fixed;
+  inset: 0;
+  background: #0a0d12;
+  display: none;
+  z-index: 5000;
+}
+
+.service-modal.active {
+  display: block;
+}
+
+.service-modal-content {
+  width: 100%;
+  height: 100%;
+  padding: 6rem 5rem;
+  overflow-y: auto;
+  background: linear-gradient(
+    180deg,
+    #0a0d12,
+    #11151b
+  );
+  color: #fff;
+}
+
+
+.close-modal {
+  position: fixed;
+  top: 2rem;
+  right: 2.5rem;
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: var(--accent-yellow);
+  z-index: 6000;
+}
+
+.modal-gallery {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+}
+
+.modal-gallery img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+
+@media (max-width: 900px) {
+
+  .service-modal-content {
+    padding: 6rem 1.5rem 3rem !important;
+    background: #0a0d12; /* niente gradient su mobile */
+  }
+
+  .service-modal-content h1 {
+    font-size: 2.1rem;
+    line-height: 1.2;
+  }
+
+  .service-modal-content p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .close-modal {
+    top: 1.2rem;
+    right: 1.4rem;
+    font-size: 2.2rem;
+  }
+}
+
+
+body.modal-open {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* === SERVICE MODAL TEXT FIX === */
+.service-modal-content h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
+  color: var(--accent-yellow);
+  letter-spacing: 1px;
+}
+
+.service-modal-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+  max-width: 900px;
+}
+
+html, body {
+  max-width: 100%;
+}
+
   </style>
 </head>
 <body>
@@ -416,27 +518,30 @@ iframe {
     <h2 class="section-title">Scavi civili e lavori di cantiere</h2>
 
     <div class="services">
-      <div class="service">
-        <img src="scavone.jpg">
-        <div class="service-content">
-          <h3>Scavi e movimento terra</h3>
-          <p>Servizi di scavo e movimento terra per la preparazione e la modellazione del terreno in ambito edile e infrastrutturale.</p>
-        </div>
-      </div>
-      <div class="service">
-        <img src="infrastrutture.jpg">
-        <div class="service-content">
-          <h3>Infrastrutture e sottoservizi</h3>
-          <p>Esecuzione di scavi per la realizzazione e la posa di reti e sottoservizi, civili e industriali.</p>
-        </div>
-      </div>
-      <div class="service">
-        <img src="demolizione via vecchia.jpg">
-        <div class="service-content">
-          <h3>Demolizioni e sistemazioni esterne</h3>
-          <p>Interventi di demolizione e lavori di sistemazione delle aree esterne, con rimozione delle strutture e dei materiali esistenti.</p>
-        </div>
-      </div>
+      <div class="service service-card" data-service="0">
+  <img src="scavone.jpg">
+  <div class="service-content">
+    <h3>Scavi e movimento terra</h3>
+    <p>Servizi di scavo e movimento terra per la preparazione e la modellazione del terreno in ambito edile e infrastrutturale.</p>
+  </div>
+</div>
+
+<div class="service service-card" data-service="1">
+  <img src="infrastrutture.jpg">
+  <div class="service-content">
+    <h3>Infrastrutture e sottoservizi</h3>
+    <p>Esecuzione di scavi per la realizzazione e la posa di reti e sottoservizi, civili e industriali.</p>
+  </div>
+</div>
+
+<div class="service service-card" data-service="2">
+  <img src="demolizione via vecchia.jpg">
+  <div class="service-content">
+    <h3>Demolizioni e sistemazioni esterne</h3>
+    <p>Interventi di demolizione e lavori di sistemazione delle aree esterne.</p>
+  </div>
+</div>
+
     </div>
   </section>
 
@@ -578,12 +683,108 @@ form.addEventListener('submit', async (e) => {
 });
 </script>
 
+<div class="service-modal" id="serviceModal">
+  <div class="service-modal-content">
+    <span class="close-modal">&times;</span>
+    <h1 id="serviceModalTitle"></h1>
+    <p id="serviceModalDescription"></p>
+    <div class="modal-gallery" id="serviceModalGallery"></div>
+  </div>
+</div>
+
+<script>
+const servicesData = [
+  {
+    title: "Scavi e movimento terra",
+    description: "Interventi di scavo per edifici civili, industriali e infrastrutturali, con modellazione del terreno e gestione dei materiali.",
+    images: [
+      "scavone.jpg",
+      "scavone2.jpg",
+      "scavone3.jpg"
+    ]
+  },
+  {
+    title: "Infrastrutture e sottoservizi",
+    description: "Realizzazione di reti interrate, sottoservizi e opere infrastrutturali con attenzione a sicurezza e precisione.",
+    images: [
+      "infrastrutture.jpg",
+      "infrastrutture2.jpg",
+      "infrastrutture3.jpg"
+    ]
+  },
+  {
+    title: "Demolizioni e sistemazioni esterne",
+    description: "Demolizioni controllate e sistemazione delle aree esterne con mezzi specializzati.",
+    images: [
+      "demolizione via vecchia.jpg",
+      "demolizione2.jpg",
+      "demolizione3.jpg"
+    ]
+  }
+];
+
+const modal = document.getElementById("serviceModal");
+const modalTitle = document.getElementById("serviceModalTitle");
+const modalDescription = document.getElementById("serviceModalDescription");
+const modalGallery = document.getElementById("serviceModalGallery");
+const closeModal = document.querySelector(".close-modal");
+
+document.querySelectorAll(".service-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const index = card.dataset.service;
+    const service = servicesData[index];
+
+    modalTitle.textContent = service.title;
+    modalDescription.textContent = service.description;
+
+    modalGallery.innerHTML = "";
+    service.images.forEach(img => {
+      const image = document.createElement("img");
+      image.src = img;
+      modalGallery.appendChild(image);
+    });
+
+    // 👉 1. blocca scroll pagina
+    document.body.classList.add("modal-open");
+
+    // 👉 2. forza la vista in cima
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    });
+
+    // 👉 3. apri la bacheca
+    modal.classList.add("active");
+  });
+});
+
+function closeServiceModal() {
+  modal.classList.remove("active");
+  document.body.classList.remove("modal-open");
+}
+
+// chiusura con X
+closeModal.addEventListener("click", closeServiceModal);
+
+// chiusura clic fuori
+modal.addEventListener("click", e => {
+  if (e.target === modal) {
+    closeServiceModal();
+  }
+});
+
+// chiusura ESC
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && modal.classList.contains("active")) {
+    closeServiceModal();
+  }
+});
+</script>
 
 
 </body>
 
 </html>
-
-
 
 
