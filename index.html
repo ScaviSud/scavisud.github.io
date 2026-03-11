@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head> 
-  <meta name="description" content="Questo è un esempio di meta description. In genere puoi vedere questo testo nella pagina dei risultati di ricerca, ma Google può anche prendere altro contenuto.">
+  <meta name="description" content="Impresa pugliese operante nel settore degli scavi e del movimento terra, qualificata nelle categorie SOA OG3 e OG6">
   <meta name="google-site-verification" content="KVcEJYnxI7Q7_9KzsUBUfl8D7Z_aYdnU_dcqDtSvLQc" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -451,11 +451,11 @@ iframe {
     transform: none !important;
    }
   .site-logo {
+    position: fixed !important;
     top: 2rem;
     left: 2.5rem;
     transform: none !important;
     z-index: 9999;
-    position: static;
     }
   .service-modal-content {
     padding: 6rem 1.5rem 3rem !important;
@@ -504,7 +504,66 @@ body.modal-open {
 html, body {
   max-width: 100%;
 }
+/* SOA animation */
 
+.soa-holder{
+  height:75px;
+  display:flex;
+  justify-content:center;
+  font-family:'Oswald', sans-serif;
+  font-size: 3.2rem;
+  color:var(--accent-yellow);
+  font-weight: 500;
+}
+
+.soa-letter{
+  opacity:0;
+  transform:translateY(20px);
+  transition:all .5s ease;
+}
+
+.soa-letter.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+
+/* AREA animation */
+
+.area-holder{
+  height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  font-family:'Oswald', sans-serif;
+  font-size:1.4rem;
+  
+}
+
+.area-line{
+  width:0;
+  height:3px;
+  background:var(--accent-orange);
+  transition:width 1.2s ease;
+}
+
+.area-holder.active .area-line{
+  width:120px;
+}
+
+.north,
+.south{
+  opacity:0;
+  transform:translateY(10px);
+  transition:all .6s ease;
+}
+
+.area-holder.active .north,
+.area-holder.active .south{
+  opacity:1;
+  transform:translateY(0);
+}
   </style>
 </head>
 <body>
@@ -573,10 +632,6 @@ html, body {
         <h4>03. Controllo finale</h4>
         <p>Verifica delle quote, compattazione e consegna del lavoro conforme alle specifiche richieste.</p>
       </div>
-      <div class="step">
-        <h4>04. Assistenza post-lavoro</h4>
-        <p>Supporto al cliente dopo la consegna, chiarimenti tecnici e disponibilità per eventuali interventi o integrazioni future.</p>
-      </div>
     </div>
   </section>
 
@@ -584,23 +639,46 @@ html, body {
     <div class="section-label">DATI OPERATIVI</div>
     <h2 class="section-title">Risultati concreti sul campo</h2>
     <div class="stats-container reveal">
-      <div class="stat-card">
-        <h3>1,250+</h3>
-        <p>Progetti completati</p>
-      </div>
-      <div class="stat-card">
-        <h3>29</h3>
-        <p>Anni di attività</p>
-      </div>
-      <div class="stat-card">
-        <h3>100%</h3>
-        <p></p>
-      </div>
-      <div class="stat-card">
-        <h3>500K+</h3>
-        <p>Metri cubi movimentati</p>
-      </div>
+
+  <!-- ANNI ATTIVITÀ -->
+  <div class="stat-card">
+    <h3 class="counter" data-target="29">0</h3>
+    <p>Anni di attività</p>
+  </div>
+
+  <!-- CATEGORIE SOA -->
+  <div class="stat-card soa-stat">
+
+    <div class="soa-holder">
+      <span class="soa-letter">O</span>
+      <span class="soa-letter">G</span>
+      <span class="soa-letter">3</span>
+      <span class="soa-letter">&nbsp;</span>
+      <span class="soa-letter">O</span>
+      <span class="soa-letter">G</span>
+      <span class="soa-letter">6</span>
     </div>
+
+    <p>Categorie SOA</p>
+
+  </div>
+
+  <!-- AREA ATTIVITÀ -->
+  <div class="stat-card area-stat">
+
+    <div class="area-holder">
+      <span class="north">Nord</span>
+      <div class="area-line"></div>
+      <span class="south">Sud</span>
+    </div>
+
+    <p>Area di attività</p>
+
+  </div>
+
+  <!-- VOLUME LAVORI -->
+
+</div>
   </section>
 
   <section id="contact" class="footer-cta reveal">
@@ -792,11 +870,77 @@ document.addEventListener("keydown", e => {
   }
 });
 </script>
+<script>
+/* STATS ANIMATION */
 
+const statsSection = document.querySelector('.stats-container');
+
+const statsObserver = new IntersectionObserver(entries => {
+
+  entries.forEach(entry => {
+
+    if(entry.isIntersecting){
+
+      /* contatore anni */
+
+      const counters = document.querySelectorAll('.counter');
+
+      counters.forEach(counter => {
+
+        const target = +counter.dataset.target;
+        let current = 0;
+        const step = target / 60;
+
+        const timer = setInterval(()=>{
+
+          current += step;
+
+          if(current >= target){
+            counter.textContent = target + "+";
+            clearInterval(timer);
+          }else{
+            counter.textContent = Math.floor(current);
+          }
+
+        },25);
+
+      });
+
+      /* animazione SOA */
+
+      const letters = document.querySelectorAll('.soa-letter');
+
+      letters.forEach((letter,i)=>{
+
+        setTimeout(()=>{
+          letter.classList.add('visible');
+        }, i*120);
+
+      });
+
+      /* animazione area */
+
+      const area = document.querySelector('.area-holder');
+
+      if(area){
+        setTimeout(()=>{
+          area.classList.add('active');
+        },400);
+      }
+
+      statsObserver.unobserve(statsSection);
+
+    }
+
+  });
+
+},{threshold:0.4});
+
+statsObserver.observe(statsSection);
+</script>
 
 </body>
 
 </html>
-
 
 
