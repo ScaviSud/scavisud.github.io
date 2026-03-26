@@ -581,6 +581,28 @@ html, body {
   opacity:1;
   transform:translateY(0);
 }
+.services::-webkit-scrollbar {
+  height: 6px;
+}
+
+.services::-webkit-scrollbar-thumb {
+  background: var(--accent-orange);
+  border-radius: 10px;
+}
+
+.service {
+  position: relative;
+}
+
+.service::after {
+  content: "+";
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  font-size: 1.4rem;
+  color: var(--accent-yellow);
+  font-weight: 600;
+}
   </style>
 </head>
 <body>
@@ -959,6 +981,3 @@ statsObserver.observe(statsSection);
 </body>
 
 </html>
-
-
-
