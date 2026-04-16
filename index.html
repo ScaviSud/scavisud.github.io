@@ -636,13 +636,88 @@ html, body {
     .info {
       display: hide;
     }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+
+/* overlay scuro */
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.2)
+  );
+}
+
+/* contenuto sopra immagine */
+.project-info {
+  position: absolute;
+  bottom: 0;
+  padding: 1.5rem;
+  z-index: 2;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all .4s ease;
+}
+
+.project-info h3 {
+  font-family: 'Oswald', sans-serif;
+  margin-bottom: 0.4rem;
+}
+
+.project-info p {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+/* hover effect */
+.project-card:hover img {
+  transform: scale(1.1);
+}
+
+.project-card:hover .project-info {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 1000px) {
+  .project-info {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.projects-section {
+  padding-top: 2rem !important;
+}
   </style>
 </head>
 <body>
   <div class="site-logo">SCAVISUD</div>
   <nav>
     <a href="#services" >SERVIZI</a>
-    <a href="#process">PROCESSO</a>
+    <a href="#process">CANTIERI</a>
     <a href="#contact">CONTATTI</a>
   </nav>
 
@@ -687,26 +762,50 @@ html, body {
     </div>
   </section>
 
-  <section id="process" class="reveal">
-    <div class="section-label">METODO OPERATIVO</div>
-    <h2 class="section-title">Un processo strutturato</h2>
+ <section id="projects" class="reveal projects-section">
+  <div class="section-label">CANTIERI</div>
+  <h2 class="section-title">Alcuni lavori completati</h2>
 
-    <div class="timeline">
-      <div class="step">
-        <h4>01. Analisi del sito</h4>
-        <p>Valutazione dell’area, accessi, condizioni del terreno e definizione delle fasi operative.</p>
-      </div>
-      <div class="step">
-        <h4>02. Esecuzione dei lavori</h4>
-        <p>Coordinamento dei mezzi, rispetto dei tempi e attenzione costante alla sicurezza in cantiere.</p>
-      </div>
-      <div class="step">
-        <h4>03. Controllo finale</h4>
-        <p>Verifica delle quote, compattazione e consegna del lavoro conforme alle specifiche richieste.</p>
+  <div class="projects-grid">
+    <div class="service project-card" data-project="0">
+      <img src="roz2.jpg">
+      <div class="project-info">
+        <h3>Comune di Rozzano(LOM)</h3>
       </div>
     </div>
-  </section>
 
+    <div class="service project-card" data-project="1">
+      <img src="pes4.jpg">
+      <div class="project-info">
+        <h3>Comune di Pescia(TOS)</h3>
+        <p>Scavi per reti idriche e fognarie.</p>
+      </div>
+    </div>
+
+    <div class="service project-card" data-project="2">
+      <img src="cim3.jpg">
+      <div class="project-info">
+        <h3>Cimitero di Altamura(PUG)</h3>
+      </div>
+    </div>
+  
+
+<div class="service project-card" data-project="3">
+      <img src="cor2.jpg">
+      <div class="project-info">
+        <h3>Sede di Fratelli Cornacchia Srl, Matera(BAS)</h3>
+      </div>
+    </div>
+
+<div class="service project-card" data-project="4">
+      <img src="cor2.jpg">
+      <div class="project-info">
+        <h3>Centro storico di Altamura(PUG)</h3>
+      </div>
+    </div>
+
+  </div>
+</section>
   <section class="reveal" style="padding-top:0;">
     <div class="section-label">DATI OPERATIVI</div>
     <h2 class="section-title">Altre informazioni</h2>
@@ -887,6 +986,69 @@ const servicesData = [
   }
 ];
 
+const projectsData = [
+  {
+    title: "Rozzano",
+    description: "Intervento completo di scavo, posa sottoservizi e preparazione del terreno per edificazione.",
+    images: [
+      "roz.jpg",
+      "roz3.jpg",
+      "roz4.jpg",
+      "roz5.jpg",
+      "roz6.jpg",
+      "roz7.jpg"
+    ]
+  },
+  {
+    title: "Pesci",
+    description: "Esecuzione di scavi per reti idriche e fognarie con mezzi specializzati.",
+    images: [
+      "pes1.jpg",
+      "pes2.jpg",
+      "pes3.jpg",
+      "pes4.jpg",
+      "pes5.jpg",
+      "pes6.jpg"
+    ]
+  },
+{
+    title: "Cimitero",
+    description: "Esecuzione di scavi per reti idriche e fognarie con mezzi specializzati.",
+    images: [
+      "cim.jpg",
+      "cim2.jpg",
+      "cim3.jpg",
+      "cim4.jpg"
+    ]
+  },
+{
+    title: "Cornacchia",
+    description: "Esecuzione di scavi per reti idriche e fognarie con mezzi specializzati.",
+    images: [
+      "cor.jpg",
+      "cor2.jpg",
+      "cor3.jpg",
+      "cor4.jpg",
+      "cor5.jpg",
+      "cor6.jpg",
+      "cor7.jpg"
+    ]
+  },
+  {
+    title: "Centro storico",
+    description: "Demolizione controllata e successiva sistemazione dell’area.",
+    images: [
+      "corso.jpg",
+      "corso2.jpg",
+      "corso3.jpg",
+      "corso4.jpg",
+      "corso5.jpg",
+      "corso6.jpg",
+      "corso7.jpg"
+    ]
+  }
+];
+
 const modal = document.getElementById("serviceModal");
 const modalTitle = document.getElementById("serviceModalTitle");
 const modalDescription = document.getElementById("serviceModalDescription");
@@ -919,6 +1081,33 @@ document.querySelectorAll(".service-card").forEach(card => {
     });
 
     // 👉 3. apri la bacheca
+    modal.classList.add("active");
+  });
+});
+
+document.querySelectorAll(".project-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const index = card.dataset.project;
+    const project = projectsData[index];
+
+    modalTitle.textContent = project.title;
+    modalDescription.textContent = project.description;
+
+    modalGallery.innerHTML = "";
+    project.images.forEach(img => {
+      const image = document.createElement("img");
+      image.src = img;
+      modalGallery.appendChild(image);
+    });
+
+    document.body.classList.add("modal-open");
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    });
+
     modal.classList.add("active");
   });
 });
