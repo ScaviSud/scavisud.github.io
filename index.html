@@ -634,7 +634,7 @@ html, body {
   font-weight: 600;
 }
     .info {
-      display: hide;
+      display: none;
     }
 
 .projects-grid {
@@ -1087,15 +1087,15 @@ document.querySelectorAll(".service-card").forEach(card => {
       modalGallery.appendChild(image);
     });
 
+let scrollPosition = 0;
+
     // 👉 1. blocca scroll pagina
+scrollPosition = window.scrollY;
     document.body.classList.add("modal-open");
 
     // 👉 2. forza la vista in cima
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant"
-    });
+   
+
 
     // 👉 3. apri la bacheca
     modal.classList.add("active");
@@ -1116,14 +1116,10 @@ document.querySelectorAll(".project-card").forEach(card => {
       image.src = img;
       modalGallery.appendChild(image);
     });
-
+    scrollPosition = window.scrollY;
     document.body.classList.add("modal-open");
 
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant"
-    });
+    window.scrollTo(0, scrollPosition);
 
     modal.classList.add("active");
   });
@@ -1132,6 +1128,7 @@ document.querySelectorAll(".project-card").forEach(card => {
 function closeServiceModal() {
   modal.classList.remove("active");
   document.body.classList.remove("modal-open");
+  window.scrollTo(0, scrollPosition);
 }
 
 // chiusura con X
