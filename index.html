@@ -711,6 +711,73 @@ html, body {
 .projects-section {
   padding-top: 2rem !important;
 }
+
+@media (max-width: 650px) {
+
+.projects-grid {
+position: relative;
+  display: flex !important;
+  flex-direction: column;
+  height: 100vh;                 /* viewport pieno */
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.project-card {
+  height: 50vh;                 /* ogni card full screen */
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  border-radius: 0;              /* stile più clean */
+}
+
+.projects-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.projects-wrapper {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+ .projects-wrapper::before,
+  .projects-wrapper::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* sopra */
+  .projects-wrapper::before {
+    top: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10,13,18,0.95),
+      rgba(10,13,18,0)
+    );
+  }
+
+  /* sotto */
+  .projects-wrapper::after {
+    bottom: 0;
+    background: linear-gradient(
+      to top,
+      rgba(10,13,18,0.95),
+      rgba(10,13,18,0)
+    );
+  }
+
+}
+
+@media (max-width: 450px) {
+.project-card {
+  height: 30vh;
+}
+}
   </style>
 </head>
 <body>
@@ -765,7 +832,7 @@ html, body {
  <section id="projects" class="reveal projects-section">
   <div class="section-label">CANTIERI</div>
   <h2 class="section-title">Alcuni lavori completati</h2>
-
+<div class="projects-wrapper">
   <div class="projects-grid">
     <div class="service project-card" data-project="0">
       <img src="roz4.jpg">
@@ -810,6 +877,7 @@ html, body {
     </div>
 
   </div>
+</div>
 </section>
   <section class="reveal" style="padding-top:0;">
     <div class="section-label">DATI OPERATIVI</div>
