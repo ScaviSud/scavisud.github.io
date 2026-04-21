@@ -961,6 +961,8 @@ form.addEventListener('submit', async (e) => {
 </div>
 
 <script>
+
+let scrollPosition = 0;
 const servicesData = [
   {
     title: "Scavi e movimento terra",
@@ -1087,10 +1089,9 @@ document.querySelectorAll(".service-card").forEach(card => {
       modalGallery.appendChild(image);
     });
 
-let scrollPosition = 0;
 
     // 👉 1. blocca scroll pagina
-scrollPosition = window.scrollY;
+    scrollPosition = window.scrollY;
     document.body.classList.add("modal-open");
 
     // 👉 2. forza la vista in cima
