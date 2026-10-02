@@ -637,45 +637,143 @@ html, body {
       display: none;
     }
 
+
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(1.25rem, 2vw, 2rem);
 }
 
 .project-card {
   position: relative;
-  height: 320px;
+  min-width: 0;
+  height: clamp(330px, 30vw, 390px);
   overflow: hidden;
   border-radius: 20px;
   cursor: pointer;
+  border-left: 0 !important;
+  background: #11151b;
+  isolation: isolate;
 }
 
-.project-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .6s ease;
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255,255,255,.08), transparent 38%),
+    linear-gradient(to bottom, rgba(10,13,18,.04), rgba(10,13,18,.45));
 }
 
-/* overlay scuro */
 .project-card::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 5;
+  pointer-events: none;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.75),
-    rgba(0,0,0,0.2)
+    rgba(0,0,0,.82) 0%,
+    rgba(0,0,0,.18) 43%,
+    rgba(0,0,0,0) 70%
   );
 }
 
-/* contenuto sopra immagine */
+.project-collage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0d1117;
+  transition: transform .65s cubic-bezier(.2,.8,.2,1);
+}
+
+.project-collage img {
+  position: absolute;
+  display: block;
+  object-fit: cover;
+  width: 56%;
+  height: 62%;
+  left: 22%;
+  top: 19%;
+  border: 3px solid rgba(255,255,255,.92);
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  transition: filter .5s ease, box-shadow .5s ease;
+  will-change: filter;
+  filter: saturate(.95) contrast(1.02);
+}
+
+/* Quattro composizioni diverse: il JS ne assegna una a ogni card. */
+.project-card.layout-1 .project-collage img:nth-child(1) {
+  width: 58%; height: 68%; left: 3%; top: 10%; transform: rotate(-7deg);
+}
+.project-card.layout-1 .project-collage img:nth-child(2) {
+  width: 56%; height: 62%; left: 43%; top: 5%; transform: rotate(5deg);
+}
+.project-card.layout-1 .project-collage img:nth-child(3) {
+  width: 56%; height: 64%; left: 5%; top: 47%; transform: rotate(3deg);
+}
+.project-card.layout-1 .project-collage img:nth-child(4) {
+  width: 54%; height: 60%; left: 47%; top: 39%; transform: rotate(-4deg);
+}
+
+.project-card.layout-2 .project-collage img:nth-child(1) {
+  width: 54%; height: 65%; left: 2%; top: 4%; transform: rotate(6deg);
+}
+.project-card.layout-2 .project-collage img:nth-child(2) {
+  width: 58%; height: 57%; left: 40%; top: 13%; transform: rotate(-6deg);
+}
+.project-card.layout-2 .project-collage img:nth-child(3) {
+  width: 55%; height: 63%; left: 9%; top: 46%; transform: rotate(-4deg);
+}
+.project-card.layout-2 .project-collage img:nth-child(4) {
+  width: 50%; height: 60%; left: 52%; top: 43%; transform: rotate(5deg);
+}
+
+.project-card.layout-3 .project-collage img:nth-child(1) {
+  width: 57%; height: 60%; left: 1%; top: 17%; transform: rotate(-4deg);
+}
+.project-card.layout-3 .project-collage img:nth-child(2) {
+  width: 52%; height: 70%; left: 44%; top: 0%; transform: rotate(7deg);
+}
+.project-card.layout-3 .project-collage img:nth-child(3) {
+  width: 57%; height: 56%; left: 7%; top: 54%; transform: rotate(6deg);
+}
+.project-card.layout-3 .project-collage img:nth-child(4) {
+  width: 52%; height: 55%; left: 49%; top: 48%; transform: rotate(-5deg);
+}
+
+.project-card.layout-4 .project-collage img:nth-child(1) {
+  width: 58%; height: 58%; left: 3%; top: 3%; transform: rotate(5deg);
+}
+.project-card.layout-4 .project-collage img:nth-child(2) {
+  width: 53%; height: 66%; left: 47%; top: 7%; transform: rotate(-4deg);
+}
+.project-card.layout-4 .project-collage img:nth-child(3) {
+  width: 52%; height: 61%; left: 4%; top: 49%; transform: rotate(-7deg);
+}
+.project-card.layout-4 .project-collage img:nth-child(4) {
+  width: 58%; height: 56%; left: 41%; top: 49%; transform: rotate(6deg);
+}
+
+.project-card:hover .project-collage {
+  transform: scale(1.025);
+}
+
+.project-card:hover .project-collage img {
+  filter: saturate(1.08) contrast(1.04);
+  box-shadow: 0 22px 44px rgba(0,0,0,.42);
+}
+
 .project-info {
   position: absolute;
+  left: 0;
+  right: 0;
   bottom: 0;
-  padding: 1.5rem;
-  z-index: 2;
+  padding: 1.35rem;
+  z-index: 10;
   transform: translateY(20px);
   opacity: 0;
   transition: all .4s ease;
@@ -684,16 +782,12 @@ html, body {
 .project-info h3 {
   font-family: 'Oswald', sans-serif;
   margin-bottom: 0.4rem;
+  letter-spacing: .5px;
 }
 
 .project-info p {
-  font-size: 0.9rem;
+  font-size: .9rem;
   color: #ddd;
-}
-
-/* hover effect */
-.project-card:hover img {
-  transform: scale(1.1);
 }
 
 .project-card:hover .project-info {
@@ -713,45 +807,48 @@ html, body {
 }
 
 @media (max-width: 650px) {
+  .projects-grid {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 460px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+    gap: 1rem;
+    padding: .25rem 0 2rem;
+  }
 
-.projects-grid {
-position: relative;
-  display: flex !important;
-  flex-direction: column;
-  height: 100vh;                 /* viewport pieno */
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-}
+  .project-card {
+    height: clamp(320px, 54vh, 520px);
+    min-height: 320px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border-radius: 16px;
+  }
 
-.project-card {
-  height: 50vh;                 /* ogni card full screen */
-  flex-shrink: 0;
-  scroll-snap-align: start;
-  border-radius: 0;              /* stile più clean */
-}
+  .projects-grid::-webkit-scrollbar {
+    display: none;
+  }
 
-.projects-grid::-webkit-scrollbar {
-  display: none;
-}
-
-.projects-wrapper {
+  .projects-wrapper {
     position: relative;
     height: 100vh;
     overflow: hidden;
   }
 
- .projects-wrapper::before,
+  .projects-wrapper::before,
   .projects-wrapper::after {
     content: "";
     position: absolute;
     left: 0;
     width: 100%;
-    height: 90px;
+    height: 70px;
     pointer-events: none;
     z-index: 1000;
   }
 
-  /* sopra */
   .projects-wrapper::before {
     top: 0;
     background: linear-gradient(
@@ -761,7 +858,6 @@ position: relative;
     );
   }
 
-  /* sotto */
   .projects-wrapper::after {
     bottom: 0;
     background: linear-gradient(
@@ -771,12 +867,34 @@ position: relative;
     );
   }
 
+  .project-collage img {
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 0 12px 26px rgba(0,0,0,.3);
+  }
 }
 
-@media (max-width: 450px) {
-.project-card {
-  height: 30vh;
+@media (max-width: 430px) {
+  .project-card {
+    height: 54vh;
+    min-height: 300px;
+  }
+
+  .project-collage img {
+    border-width: 1.5px;
+  }
+
+  .project-info {
+    padding: 1rem;
+  }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .project-collage,
+  .project-collage img,
+  .project-info {
+    transition: none !important;
+  }
 }
 .scavi {
     display: none;
@@ -839,47 +957,79 @@ position: relative;
   <h2 class="section-title">Alcuni lavori completati</h2>
 <div class="projects-wrapper">
   <div class="projects-grid">
+    <div class="projects-grid">
     <div class="service project-card" data-project="0">
-      <img src="roz4.jpg">
+      <div class="project-collage" aria-hidden="true">
+        <img src="roz.jpg" alt="">
+        <img src="roz3.jpg" alt="">
+        <img src="roz4.jpg" alt="">
+        <img src="roz5.jpg" alt="">
+      </div>
       <div class="project-info">
         <h3>Comune di Rozzano(LOM)</h3>
       </div>
     </div>
 
     <div class="service project-card" data-project="1">
-      <img src="pes4.jpg">
+      <div class="project-collage" aria-hidden="true">
+        <img src="pes1.jpg" alt="">
+        <img src="pes2.jpg" alt="">
+        <img src="pes3.jpg" alt="">
+        <img src="pes4.jpg" alt="">
+      </div>
       <div class="project-info">
         <h3>Comune di Pescia(TOS)</h3>
       </div>
     </div>
 
     <div class="service project-card" data-project="2">
-      <img src="cim3.jpg">
+      <div class="project-collage" aria-hidden="true">
+        <img src="cim.jpg" alt="">
+        <img src="cim2.jpg" alt="">
+        <img src="cim3.jpg" alt="">
+        <img src="cim4.jpg" alt="">
+      </div>
       <div class="project-info">
         <h3>Cimitero di Altamura(PUG)</h3>
       </div>
     </div>
-  
 
-<div class="service project-card" data-project="3">
-      <img src="cor2.jpg">
+    <div class="service project-card" data-project="3">
+      <div class="project-collage" aria-hidden="true">
+        <img src="cor.jpg" alt="">
+        <img src="cor2.jpg" alt="">
+        <img src="cor3.jpg" alt="">
+        <img src="cor4.jpg" alt="">
+      </div>
       <div class="project-info">
         <h3>Sede di Fratelli Cornacchia Srl, Matera(BAS)</h3>
       </div>
     </div>
 
-<div class="service project-card" data-project="4">
-      <img src="corso2.jpg">
+    <div class="service project-card" data-project="4">
+      <div class="project-collage" aria-hidden="true">
+        <img src="corso.jpeg" alt="">
+        <img src="corso2.jpg" alt="">
+        <img src="corso3.jpeg" alt="">
+        <img src="corso4.jpeg" alt="">
+      </div>
       <div class="project-info">
         <h3>Centro storico di Altamura(PUG)</h3>
       </div>
     </div>
-<div class="service project-card" data-project="5">
-      <img src="minn9.jpeg">
+
+    <div class="service project-card" data-project="5">
+      <div class="project-collage" aria-hidden="true">
+        <img src="minn10.jpeg" alt="">
+        <img src="minn9.jpeg" alt="">
+        <img src="minn7.jpeg" alt="">
+        <img src="minn6.jpeg" alt="">
+      </div>
       <div class="project-info">
         <h3>Scuola secondaria Minniti, Altamura(BA)</h3>
       </div>
     </div>
+
 
   </div>
 </div>
@@ -1176,13 +1326,22 @@ document.querySelectorAll(".service-card").forEach(card => {
   });
 });
 
+/* Composizione dinamica: ogni card riceve uno dei 4 collage e il risultato
+   cambia automaticamente a ogni caricamento, mantenendo ordine e leggibilità. */
+const collageLayouts = [1, 2, 3, 4];
+document.querySelectorAll(".project-card").forEach((card, i) => {
+  const base = i % collageLayouts.length;
+  const randomOffset = Math.floor(Math.random() * collageLayouts.length);
+  card.classList.add(`layout-${collageLayouts[(base + randomOffset) % collageLayouts.length]}`);
+});
+
 document.querySelectorAll(".project-card").forEach(card => {
   card.addEventListener("click", () => {
     const index = card.dataset.project;
     const project = projectsData[index];
 
     modalTitle.textContent = project.title;
-    modalDescription.textContent = project.description;
+    modalDescription.textContent = project.description || "";
 
     modalGallery.innerHTML = "";
     project.images.forEach(img => {
