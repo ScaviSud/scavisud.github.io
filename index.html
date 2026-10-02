@@ -468,20 +468,144 @@ iframe {
   z-index: 6000;
 }
 
+
 .modal-gallery {
   margin-top: 4rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
-.modal-gallery img {
+.modal-gallery-group {
+  position: relative;
+  min-height: clamp(360px, 48vw, 600px);
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #0d1117;
+  isolation: isolate;
 }
 
+/* Quattro immagini per gruppo: ogni gruppo usa un ordine/disposizione differente. */
+.modal-gallery-group img {
+  position: absolute;
+  display: block;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.92);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.34);
+  transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .45s ease;
+  will-change: transform;
+  filter: saturate(.96) contrast(1.02);
+}
+
+/* Gruppo 1: diagonale / foto centrali sovrapposte */
+.modal-gallery-group.group-1 img:nth-child(1) {
+  width: 52%; height: 60%; left: 2%; top: 5%;
+  transform: rotate(-6deg); z-index: 1;
+}
+.modal-gallery-group.group-1 img:nth-child(2) {
+  width: 52%; height: 58%; left: 46%; top: 0%;
+  transform: rotate(5deg); z-index: 2;
+}
+.modal-gallery-group.group-1 img:nth-child(3) {
+  width: 54%; height: 59%; left: 7%; top: 45%;
+  transform: rotate(4deg); z-index: 3;
+}
+.modal-gallery-group.group-1 img:nth-child(4) {
+  width: 53%; height: 57%; left: 43%; top: 42%;
+  transform: rotate(-4deg); z-index: 4;
+}
+
+/* Gruppo 2: due alte + due basse, asimmetriche */
+.modal-gallery-group.group-2 img:nth-child(1) {
+  width: 43%; height: 73%; left: 0%; top: 3%;
+  transform: rotate(5deg); z-index: 2;
+}
+.modal-gallery-group.group-2 img:nth-child(2) {
+  width: 53%; height: 52%; left: 37%; top: 0%;
+  transform: rotate(-6deg); z-index: 4;
+}
+.modal-gallery-group.group-2 img:nth-child(3) {
+  width: 50%; height: 50%; left: 5%; top: 53%;
+  transform: rotate(-5deg); z-index: 3;
+}
+.modal-gallery-group.group-2 img:nth-child(4) {
+  width: 45%; height: 68%; left: 55%; top: 34%;
+  transform: rotate(7deg); z-index: 1;
+}
+
+/* Gruppo 3: puzzle verticale */
+.modal-gallery-group.group-3 img:nth-child(1) {
+  width: 47%; height: 57%; left: 2%; top: 1%;
+  transform: rotate(-4deg); z-index: 4;
+}
+.modal-gallery-group.group-3 img:nth-child(2) {
+  width: 49%; height: 64%; left: 49%; top: 2%;
+  transform: rotate(6deg); z-index: 2;
+}
+.modal-gallery-group.group-3 img:nth-child(3) {
+  width: 50%; height: 57%; left: 1%; top: 48%;
+  transform: rotate(6deg); z-index: 1;
+}
+.modal-gallery-group.group-3 img:nth-child(4) {
+  width: 47%; height: 61%; left: 47%; top: 43%;
+  transform: rotate(-5deg); z-index: 3;
+}
+
+/* Gruppo 4: grande diagonale con due foto che "tagliano" il gruppo */
+.modal-gallery-group.group-4 img:nth-child(1) {
+  width: 56%; height: 48%; left: -3%; top: 2%;
+  transform: rotate(7deg); z-index: 2;
+}
+.modal-gallery-group.group-4 img:nth-child(2) {
+  width: 49%; height: 69%; left: 42%; top: -4%;
+  transform: rotate(-5deg); z-index: 4;
+}
+.modal-gallery-group.group-4 img:nth-child(3) {
+  width: 49%; height: 66%; left: 4%; top: 40%;
+  transform: rotate(-7deg); z-index: 3;
+}
+.modal-gallery-group.group-4 img:nth-child(4) {
+  width: 57%; height: 46%; left: 43%; top: 55%;
+  transform: rotate(5deg); z-index: 1;
+}
+
+.modal-gallery-group img:hover {
+  transform: translateY(-5px) scale(1.02) rotate(0deg) !important;
+  filter: saturate(1.08) contrast(1.05);
+  z-index: 20 !important;
+}
+
+@media (max-width: 700px) {
+  .modal-gallery {
+    margin-top: 2.25rem;
+    gap: 2rem;
+  }
+
+  .modal-gallery-group {
+    min-height: 430px;
+    border-radius: 18px;
+  }
+
+  .modal-gallery-group img {
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.28);
+  }
+}
+
+@media (max-width: 430px) {
+  .modal-gallery-group {
+    min-height: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-gallery-group img {
+    transition: none !important;
+  }
+}
 .bottoni { gap: 0px; }
 @media (max-width: 1000px) {
 
@@ -705,57 +829,58 @@ html, body {
   filter: saturate(.95) contrast(1.02);
 }
 
-/* Quattro composizioni diverse: il JS ne assegna una a ogni card. */
+/* === DISPOSIZIONI COLLAGE: ogni card ha una composizione interna diversa === */
+
 .project-card.layout-1 .project-collage img:nth-child(1) {
-  width: 58%; height: 68%; left: 3%; top: 10%; transform: rotate(-7deg);
+  width: 59%; height: 61%; left: 1%; top: 7%; transform: rotate(-8deg);
 }
 .project-card.layout-1 .project-collage img:nth-child(2) {
-  width: 56%; height: 62%; left: 43%; top: 5%; transform: rotate(5deg);
+  width: 56%; height: 56%; left: 46%; top: 2%; transform: rotate(6deg);
 }
 .project-card.layout-1 .project-collage img:nth-child(3) {
-  width: 56%; height: 64%; left: 5%; top: 47%; transform: rotate(3deg);
+  width: 54%; height: 60%; left: 4%; top: 46%; transform: rotate(4deg);
 }
 .project-card.layout-1 .project-collage img:nth-child(4) {
-  width: 54%; height: 60%; left: 47%; top: 39%; transform: rotate(-4deg);
+  width: 58%; height: 57%; left: 43%; top: 44%; transform: rotate(-5deg);
 }
 
 .project-card.layout-2 .project-collage img:nth-child(1) {
-  width: 54%; height: 65%; left: 2%; top: 4%; transform: rotate(6deg);
+  width: 50%; height: 70%; left: -2%; top: 5%; transform: rotate(7deg);
 }
 .project-card.layout-2 .project-collage img:nth-child(2) {
-  width: 58%; height: 57%; left: 40%; top: 13%; transform: rotate(-6deg);
+  width: 48%; height: 62%; left: 42%; top: -3%; transform: rotate(-7deg);
 }
 .project-card.layout-2 .project-collage img:nth-child(3) {
-  width: 55%; height: 63%; left: 9%; top: 46%; transform: rotate(-4deg);
+  width: 55%; height: 58%; left: 2%; top: 50%; transform: rotate(-3deg);
 }
 .project-card.layout-2 .project-collage img:nth-child(4) {
-  width: 50%; height: 60%; left: 52%; top: 43%; transform: rotate(5deg);
+  width: 48%; height: 65%; left: 52%; top: 39%; transform: rotate(8deg);
 }
 
 .project-card.layout-3 .project-collage img:nth-child(1) {
-  width: 57%; height: 60%; left: 1%; top: 17%; transform: rotate(-4deg);
+  width: 50%; height: 54%; left: 2%; top: 10%; transform: rotate(-4deg);
 }
 .project-card.layout-3 .project-collage img:nth-child(2) {
-  width: 52%; height: 70%; left: 44%; top: 0%; transform: rotate(7deg);
+  width: 57%; height: 46%; left: 39%; top: 2%; transform: rotate(8deg);
 }
 .project-card.layout-3 .project-collage img:nth-child(3) {
-  width: 57%; height: 56%; left: 7%; top: 54%; transform: rotate(6deg);
+  width: 58%; height: 49%; left: 0%; top: 51%; transform: rotate(7deg);
 }
 .project-card.layout-3 .project-collage img:nth-child(4) {
-  width: 52%; height: 55%; left: 49%; top: 48%; transform: rotate(-5deg);
+  width: 53%; height: 52%; left: 48%; top: 46%; transform: rotate(-6deg);
 }
 
 .project-card.layout-4 .project-collage img:nth-child(1) {
-  width: 58%; height: 58%; left: 3%; top: 3%; transform: rotate(5deg);
+  width: 42%; height: 72%; left: 1%; top: 2%; transform: rotate(5deg);
 }
 .project-card.layout-4 .project-collage img:nth-child(2) {
-  width: 53%; height: 66%; left: 47%; top: 7%; transform: rotate(-4deg);
+  width: 57%; height: 52%; left: 38%; top: 0%; transform: rotate(-5deg);
 }
 .project-card.layout-4 .project-collage img:nth-child(3) {
-  width: 52%; height: 61%; left: 4%; top: 49%; transform: rotate(-7deg);
+  width: 49%; height: 50%; left: 5%; top: 55%; transform: rotate(-7deg);
 }
 .project-card.layout-4 .project-collage img:nth-child(4) {
-  width: 58%; height: 56%; left: 41%; top: 49%; transform: rotate(6deg);
+  width: 57%; height: 55%; left: 43%; top: 42%; transform: rotate(6deg);
 }
 
 .project-card:hover .project-collage {
@@ -1306,11 +1431,40 @@ document.querySelectorAll(".service-card").forEach(card => {
     modalDescription.textContent = service.description;
 
     modalGallery.innerHTML = "";
-    service.images.forEach(img => {
-      const image = document.createElement("img");
-      image.src = img;
-      modalGallery.appendChild(image);
-    });
+
+    // Le immagini della pagina aperta vengono mostrate in gruppi da 4.
+    // Ogni gruppo ha una composizione propria, mentre l'ordine delle foto
+    // cambia leggermente in base al gruppo per evitare una griglia rigida.
+    const galleryImages = [...service.images];
+
+    const groupOrders = [
+      [0, 2, 1, 3],
+      [1, 3, 0, 2],
+      [2, 0, 3, 1],
+      [3, 1, 2, 0]
+    ];
+
+    for (let start = 0, groupIndex = 0; start < galleryImages.length; start += 4, groupIndex++) {
+      const group = document.createElement("div");
+      group.className = `modal-gallery-group group-${(groupIndex % 4) + 1}`;
+
+      const chunk = galleryImages.slice(start, start + 4);
+
+      // Riordino solo all'interno del gruppo quando sono presenti 4 foto.
+      const order = groupOrders[groupIndex % groupOrders.length];
+      const orderedChunk = chunk.length === 4
+        ? order.map(index => chunk[index])
+        : chunk;
+
+      orderedChunk.forEach((img, localIndex) => {
+        const image = document.createElement("img");
+        image.src = img;
+        image.alt = `${service.title} - foto ${start + localIndex + 1}`;
+        group.appendChild(image);
+      });
+
+      modalGallery.appendChild(group);
+    }
 
 
     // 👉 1. blocca scroll pagina
@@ -1329,10 +1483,33 @@ document.querySelectorAll(".service-card").forEach(card => {
 /* Composizione dinamica: ogni card riceve uno dei 4 collage e il risultato
    cambia automaticamente a ogni caricamento, mantenendo ordine e leggibilità. */
 const collageLayouts = [1, 2, 3, 4];
+
 document.querySelectorAll(".project-card").forEach((card, i) => {
   const base = i % collageLayouts.length;
   const randomOffset = Math.floor(Math.random() * collageLayouts.length);
-  card.classList.add(`layout-${collageLayouts[(base + randomOffset) % collageLayouts.length]}`);
+  const layout = collageLayouts[(base + randomOffset) % collageLayouts.length];
+
+  card.classList.add(`layout-${layout}`);
+
+  // Micro-variazioni: ogni caricamento produce un collage leggermente diverso,
+  // senza perdere gli ingombri previsti dalla composizione principale.
+  const rotations = [-1.5, 1.2, -0.8, 1.6];
+  const shifts = [
+    [-2, 1],
+    [2, -1],
+    [-1, 2],
+    [1, -2]
+  ];
+
+  card.querySelectorAll(".project-collage img").forEach((img, index) => {
+    const x = shifts[index][0] + (Math.random() * 2 - 1);
+    const y = shifts[index][1] + (Math.random() * 2 - 1);
+    const r = rotations[index] + (Math.random() * 1.8 - .9);
+
+    img.style.marginLeft = `${x}px`;
+    img.style.marginTop = `${y}px`;
+    img.style.rotate = `${r}deg`;
+  });
 });
 
 document.querySelectorAll(".project-card").forEach(card => {
@@ -1344,11 +1521,37 @@ document.querySelectorAll(".project-card").forEach(card => {
     modalDescription.textContent = project.description || "";
 
     modalGallery.innerHTML = "";
-    project.images.forEach(img => {
-      const image = document.createElement("img");
-      image.src = img;
-      modalGallery.appendChild(image);
-    });
+
+    // Anche nella pagina del progetto: gruppi da quattro con disposizione
+    // collage e ordine interno variabile. L'ultimo gruppo può contenere meno di 4 foto.
+    const galleryImages = [...project.images];
+
+    const groupOrders = [
+      [0, 2, 1, 3],
+      [1, 3, 0, 2],
+      [2, 0, 3, 1],
+      [3, 1, 2, 0]
+    ];
+
+    for (let start = 0, groupIndex = 0; start < galleryImages.length; start += 4, groupIndex++) {
+      const group = document.createElement("div");
+      group.className = `modal-gallery-group group-${(groupIndex % 4) + 1}`;
+
+      const chunk = galleryImages.slice(start, start + 4);
+      const order = groupOrders[groupIndex % groupOrders.length];
+      const orderedChunk = chunk.length === 4
+        ? order.map(index => chunk[index])
+        : chunk;
+
+      orderedChunk.forEach((img, localIndex) => {
+        const image = document.createElement("img");
+        image.src = img;
+        image.alt = `${project.title} - foto ${start + localIndex + 1}`;
+        group.appendChild(image);
+      });
+
+      modalGallery.appendChild(group);
+    }
     scrollPosition = window.scrollY;
     document.body.classList.add("modal-open");
 
